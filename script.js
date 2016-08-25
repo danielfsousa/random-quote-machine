@@ -2,14 +2,15 @@ $(function() {
 
     var SPACE_KEY = 32;
 
-    var $quote = $('#quote');
+    var $container = $('.container');
+    var $quote = $container.find('#quote');
     var $quoteText = $quote.find('span');
 
-    var $name = $('#name');
+    var $name = $container.find('#name');
     var $nameText = $name.find('strong');
 
-    var $twitter = $('.twitter');
-    var $facebook = $('.facebook');
+    var $twitter = $container.find('.twitter');
+    var $facebook = $container.find('.facebook');
     var $spinner = $('.spinner');
 
     function stripHTML(str) {
@@ -20,7 +21,6 @@ $(function() {
         $spinner.fadeIn();
         $.getJSON('http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=?')
             .done(function(data) {
-
                 var content = stripHTML(data[0].content);
                 var name = stripHTML(data[0].title);
 
@@ -35,13 +35,15 @@ $(function() {
                 $name.fadeOut(function () {
                     $quoteText.html(content);
                     $nameText.html(name);
+                    $container.fadeIn();
                 });
                 $quote.fadeIn();
                 $spinner.fadeOut();
                 $name.fadeIn();
+
             })
             .fail(function () {
-               console.log('Error loading quotes.');
+                alert('Error loading quotes.');
             });
     }
 
